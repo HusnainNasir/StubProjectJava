@@ -1,8 +1,11 @@
 package com.example.mainthings;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Looper;
 
+import com.example.mainthings.callbacks.LocationPermissionCallback;
 import com.example.mainthings.callbacks.PermissionCallback;
 import com.example.mainthings.utils.Constants;
 import com.example.mainthings.utils.PreferenceHelper;
@@ -35,6 +38,31 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             preferenceHelper = PreferenceHelper.preferenceInstance(getApplicationContext());
             gson = new Gson();
             created(savedInstanceState);
+        }
+
+    }
+
+    public void locationPermission(PermissionCallback permissionCallback){
+
+        this.permissionCallback = permissionCallback;
+
+        requestLocationPermission();
+    }
+
+    @SuppressLint("MissingPermission")
+    @AfterPermissionGranted(Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
+    public void requestLocationPermission(){
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            // Already have permission, do the thing
+
+            permissionCallback.permissionCallback(true);
+
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(new PermissionRequest.Builder(this, Constants.FINE_AND_COURSE_LOCATION_PERMISSION, perms)
+                    .setTheme(R.style.AlertDialogCustom)
+                    .build());
         }
 
     }
@@ -75,12 +103,16 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         // Some permissions have been granted
         if (requestCode == Constants.CAMERA_AND_READ_AND_WRITE_PERMISSION)
             permissionCallback.permissionCallback(true);
+        else if (requestCode == Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
+            permissionCallback.permissionCallback(true);
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> list) {
         // Some permissions have been denied
         if (requestCode == Constants.CAMERA_AND_READ_AND_WRITE_PERMISSION)
+            permissionCallback.permissionCallback(false);
+        else if (requestCode == Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
             permissionCallback.permissionCallback(false);
     }
 
@@ -93,6 +125,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     protected abstract int getLayoutId();
+
+    protected abstract String getTag();
 
     protected abstract void created(Bundle savedInstance);
 

@@ -9,7 +9,7 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.example.mainthings.R;
-import com.example.mainthings.callbacks.PermissionCallback;
+import com.example.mainthings.callbacks.LocationPermissionCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -17,26 +17,31 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.List;
 
-import androidx.annotation.NonNull;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
-import pub.devrel.easypermissions.PermissionRequest;
+public class LocationManager{
 
-public class LocationManager implements EasyPermissions.PermissionCallbacks {
-
-    private FusedLocationProviderClient fusedLocationClient;
+    private final FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private LatLng currentLocationLatLng ;
-    private final Context context;
     private final Boolean removeUpdateLocation;
+    private Activity activity ;
+    private LocationPermissionCallback locationPermissionCallback;
 
-    public LocationManager(Context context , Boolean removeUpdateLocation) {
-        this.context = context;
+    public LocationManager(Activity activity , Boolean removeUpdateLocation) {
+        this.activity = activity;
         this.removeUpdateLocation = removeUpdateLocation;
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient((Activity) context);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
+    }
+
+    @SuppressLint("MissingPermission")
+    public void locationRequest( LocationPermissionCallback locationPermissionCallback){
+
+        this.locationPermissionCallback = locationPermissionCallback;
+        buildLocationRequest();
+        buildLocationCallBack();
+
+        fusedLocationClient.requestLocationUpdates(locationRequest , locationCallback , Looper.myLooper());
     }
 
     public void buildLocationRequest(){
@@ -62,64 +67,11 @@ public class LocationManager implements EasyPermissions.PermissionCallbacks {
                     if (removeUpdateLocation)
                         fusedLocationClient.removeLocationUpdates(locationCallback);
 
-//                    if (callback != null)
-//                        callback.getLocationCallBack(currentLocationLatLng , location.isFromMockProvider());
+                    if (locationPermissionCallback != null)
+                        locationPermissionCallback.locationCallback(currentLocationLatLng , location.isFromMockProvider());
                 }
             }
         };
     }
-
-    public void locationPermission(LocationCallback locationCallback){
-
-        this.locationCallback = locationCallback;
-
-        requestLocationPermission();
-    }
-
-    @SuppressLint("MissingPermission")
-    @AfterPermissionGranted(Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
-    public void requestLocationPermission(){
-        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(context, perms)) {
-            // Already have permission, do the thing
-
-            buildLocationRequest();
-            buildLocationCallBack();
-            fusedLocationClient.requestLocationUpdates(locationRequest , locationCallback , Looper.myLooper());
-
-        } else {
-            // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(new PermissionRequest.Builder((Activity) context, Constants.FINE_AND_COURSE_LOCATION_PERMISSION, perms)
-                    .setTheme(R.style.AlertDialogCustom)
-                    .build());
-        }
-
-    }
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-
-        if (requestCode == Constants.FINE_AND_COURSE_LOCATION_PERMISSION){
-            buildLocationRequest();
-            buildLocationCallBack();
-            fusedLocationClient.requestLocationUpdates(locationRequest , locationCallback , Looper.myLooper());
-
-        }
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-
-        Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        EasyPermissions.onRequestPermissionsResult(requestCode , permissions , grantResults , this);
-    }
-
 
 }
