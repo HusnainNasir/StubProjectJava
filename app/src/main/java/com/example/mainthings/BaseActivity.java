@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import com.example.mainthings.callbacks.LocationPermissionCallback;
 import com.example.mainthings.callbacks.PermissionCallback;
@@ -79,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }else{
             AlertDialogs.showAlertDialog(this, getString(R.string.location_setting), getString(R.string.enableLocation), getString(R.string.setting), getString(R.string.cancel), false, action -> {
                 if ((int) action == Constants.CLICK_POSITIVE) {
-                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS) , AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE);
                 }
             });
         }
@@ -154,6 +155,15 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
         if (EasyPermissions.somePermissionPermanentlyDenied(this, list)) {
             new AppSettingsDialog.Builder(this).build().show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            // Do something after user returned from app settings screen, like showing a Toast.
         }
     }
 
