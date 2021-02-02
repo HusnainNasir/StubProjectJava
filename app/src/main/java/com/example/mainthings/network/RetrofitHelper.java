@@ -12,7 +12,10 @@ import com.example.mainthings.utils.Constants;
 import com.example.mainthings.utils.PreferenceHelper;
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Headers;
@@ -30,7 +33,7 @@ public class RetrofitHelper {
     private static  RetrofitHelper instance;
     private final ApiService service;
 
-    private  int attempt=0;
+//    private  int attempt=0;
 
     private RetrofitHelper() {
 
@@ -51,12 +54,13 @@ public class RetrofitHelper {
 
     public static class AuthorizationInterceptor implements Interceptor {
         Response response;
+        @NotNull
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             PreferenceHelper preferenceUtil = PreferenceHelper.preferenceInstance(MyApplication.getContext());
 
-            if(request.headers().get("Authorization")==null || request.headers().get("Authorization").isEmpty()){
+            if(request.headers().get("Authorization")==null || Objects.requireNonNull(request.headers().get("Authorization")).isEmpty()){
                 String token = getAuthorizationHeader(MyApplication.getContext());
                 if (token != null){
                     Headers headers = request.headers().newBuilder().add("Authorization","Bearer "+ token).build();

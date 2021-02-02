@@ -1,6 +1,7 @@
 package com.example.mainthings.utils;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,13 +12,30 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mainthings.R;
-import com.example.mainthings.callbacks.OnClick;
+import com.example.mainthings.callbacks.OnClickCallback;
 
 import java.util.Objects;
 
-public class AlertFunction {
+public class AlertDialogs {
 
-    public void showAlertDialog(Context context , String headingText , String subHeadingText , String positiveText , String negativeText , boolean hideButton  , final OnClick onClick){
+    // CUSTOM PROGRESS DIALOG
+    public static ProgressDialog getProgressDialog(Context context , Boolean cancelable) {
+
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.show();
+
+        if (progressDialog.getWindow() != null ) {
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        progressDialog.setContentView(R.layout.custom_progress_dialog_layout);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(cancelable);
+        progressDialog.setCanceledOnTouchOutside(cancelable);
+        return progressDialog;
+    }
+
+    // CUSTOM ALERT DIALOG
+    public void showAlertDialog(Context context , String headingText , String subHeadingText , String positiveText , String negativeText , boolean hideButton  , final OnClickCallback onClick){
 
         if(context == null)
             return;

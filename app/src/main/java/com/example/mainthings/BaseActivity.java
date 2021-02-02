@@ -39,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     }
 
+
     public void cameraPermission(PermissionCallback permissionCallback){
 
         this.permissionCallback = permissionCallback;
@@ -54,7 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             permissionCallback.permissionCallback(true);
         } else {
             // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(new PermissionRequest.Builder(this, Constants.CAMERA_AND_READ_AND_WRITE_PERMISSION, Manifest.permission.CAMERA)
+            EasyPermissions.requestPermissions(new PermissionRequest.Builder(this, Constants.CAMERA_AND_READ_AND_WRITE_PERMISSION, perms)
                     .setTheme(R.style.AlertDialogCustom)
                     .build());
         }

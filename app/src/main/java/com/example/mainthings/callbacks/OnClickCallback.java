@@ -1,5 +1,5 @@
 package com.example.mainthings.callbacks;
 
-public interface OnClick {
+public interface OnClickCallback {
     void onclick(Object object);
 }
