@@ -43,7 +43,7 @@
 
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/noButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,8 +51,8 @@
             android:background="@color/white"
             android:padding="3dp"
             android:textSize="14sp"
-            android:backgroundTint="@color/black"
             android:layout_marginTop="20dp"
+            app:backgroundTint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/subHeading"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/yesButton"
@@ -70,7 +70,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/yesButton"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/yesButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
             android:textColor="@color/colorPrimary"
             android:padding="3dp"
             android:textSize="14sp"
-            android:backgroundTint="@color/white"
+            app:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

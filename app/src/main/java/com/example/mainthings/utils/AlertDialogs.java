@@ -35,7 +35,7 @@ public class AlertDialogs {
     }
 
     // CUSTOM ALERT DIALOG
-    public void showAlertDialog(Context context , String headingText , String subHeadingText , String positiveText , String negativeText , boolean hideButton  , final OnClickCallback onClick){
+    public static void showAlertDialog(Context context , String headingText , String subHeadingText , String positiveText , String negativeText , boolean hideButton  , final OnClickCallback onClick){
 
         if(context == null)
             return;

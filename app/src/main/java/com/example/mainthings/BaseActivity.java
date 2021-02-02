@@ -2,15 +2,21 @@ package com.example.mainthings;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.Settings;
 
 import com.example.mainthings.callbacks.LocationPermissionCallback;
 import com.example.mainthings.callbacks.PermissionCallback;
+import com.example.mainthings.utils.AlertDialogs;
 import com.example.mainthings.utils.Constants;
 import com.example.mainthings.utils.PreferenceHelper;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -18,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
@@ -42,12 +49,42 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     }
 
+
+
+    public boolean locationEnabled() {
+
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gps_enabled || network_enabled;
+    }
+
+
     public void locationPermission(PermissionCallback permissionCallback){
 
         this.permissionCallback = permissionCallback;
 
-        requestLocationPermission();
+        if (locationEnabled()){
+            requestLocationPermission();
+        }else{
+            AlertDialogs.showAlertDialog(this, getString(R.string.location_setting), getString(R.string.enableLocation), getString(R.string.setting), getString(R.string.cancel), false, action -> {
+                if ((int) action == Constants.CLICK_POSITIVE) {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
+            });
+        }
     }
+
 
     @SuppressLint("MissingPermission")
     @AfterPermissionGranted(Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
@@ -114,6 +151,10 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             permissionCallback.permissionCallback(false);
         else if (requestCode == Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
             permissionCallback.permissionCallback(false);
+
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, list)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
     }
 
     public PreferenceHelper getPreferenceHelper() {
