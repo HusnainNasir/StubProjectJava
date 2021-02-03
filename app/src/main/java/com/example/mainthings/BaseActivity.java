@@ -53,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
 
-    // For Permissions
+    // Permissions Camera , Location
 
     public boolean locationEnabled() {
 
@@ -88,7 +88,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             });
         }
     }
-
 
     @SuppressLint("MissingPermission")
     @AfterPermissionGranted(Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
@@ -170,6 +169,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     // setToolbar
+
     public void setToolbar(String title) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(title);
