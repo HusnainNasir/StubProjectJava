@@ -1,23 +1,16 @@
 package com.example.mainthings.ui.main_activity;
 
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.example.mainthings.BaseActivity;
 import com.example.mainthings.R;
 import com.example.mainthings.ui.login_activity.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
