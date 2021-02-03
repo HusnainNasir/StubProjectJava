@@ -11,6 +11,7 @@ import com.example.mainthings.MyApplication;
 import com.example.mainthings.utils.Constants;
 import com.example.mainthings.utils.PreferenceHelper;
 import com.google.gson.Gson;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -119,6 +120,7 @@ public class RetrofitHelper {
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClientBuilder.build())
                 .build();
     }

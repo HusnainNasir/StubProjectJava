@@ -20,16 +20,15 @@ import java.util.Date;
 
 public class UtilsFunction {
 
-    // ENCODE BASE 64 STRING
+    // ENCODE BITMAP TO BASE 64 STRING
     public static String compressBitmap(Bitmap bitmap){
         ByteArrayOutputStream bOut = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bOut);
         return Base64.encodeToString(bOut.toByteArray(), Base64.NO_WRAP);
     }
 
-    // DECODE BASE 64 STRING to FILE
-    public static String compressFile(File file){
-        File imgFile = new File(file.getPath());
+    // ENCODE FILE TO BASE 64
+    public static String base64ToFile(File file){
         Bitmap bm = BitmapFactory.decodeFile(file.getPath());
         ByteArrayOutputStream bOut = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bOut);

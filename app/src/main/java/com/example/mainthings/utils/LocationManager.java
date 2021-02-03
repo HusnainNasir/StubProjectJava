@@ -1,14 +1,9 @@
 package com.example.mainthings.utils;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.location.Location;
 import android.os.Looper;
-import android.widget.Toast;
-
-import com.example.mainthings.R;
 import com.example.mainthings.callbacks.LocationPermissionCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;

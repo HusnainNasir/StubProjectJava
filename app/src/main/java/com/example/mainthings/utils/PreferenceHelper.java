@@ -11,6 +11,8 @@ public class PreferenceHelper {
     private final SharedPreferences.Editor editor;
 
     private final String AUTH_TOKEN = "auth_token";
+    private final String USER_EMAIL = "user_email";
+    private final String USER_PASSWORD = "user_password";
 
     public static PreferenceHelper preferenceInstance(Context context){
 
@@ -41,6 +43,28 @@ public class PreferenceHelper {
     }
 
     public String getAuthToken() {
-        return app_prefs.getString(AUTH_TOKEN, null);
+        return app_prefs.getString(AUTH_TOKEN, "");
+    }
+
+    // USER EMAIL Setter/Getter
+
+    public void setUserEmail(String email) {
+        editor.putString(USER_EMAIL, email);
+        editor.apply();
+    }
+
+    public String getUserEmail() {
+        return app_prefs.getString(USER_EMAIL, "");
+    }
+
+    // USER PASSWORD Setter/Getter
+
+    public void setUserPassword(String password) {
+        editor.putString(USER_PASSWORD, password);
+        editor.apply();
+    }
+
+    public String getUserPassword() {
+        return app_prefs.getString(USER_PASSWORD, "");
     }
 }
