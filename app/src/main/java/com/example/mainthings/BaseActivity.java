@@ -50,8 +50,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     }
 
-
-
     public boolean locationEnabled() {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
