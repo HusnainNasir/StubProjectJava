@@ -4,4 +4,6 @@
     <string name="enableLocation">Your location seems to be disabled , do you want to enable it</string>
     <string name="setting">Setting</string>
     <string name="cancel">Cancel</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.mainthings.callbacks.LocationPermissionCallback;
@@ -28,6 +29,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
+
 
 public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
 
@@ -51,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
 
+    // For Permissions
 
     public boolean locationEnabled() {
 
@@ -104,7 +107,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
 
     }
-
 
     public void cameraPermission(PermissionCallback permissionCallback){
 
@@ -167,6 +169,37 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
     }
 
+    // setToolbar
+    public void setToolbar(String title) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(title);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Activity Navigation
+    public void activityNavigation(Context context, Class<?> activityClass, boolean isFinish, List<String> dataName , List<Object> dataValues){
+        Intent activityIntent = new Intent(context , activityClass);
+
+        int incrementData = 0;
+        for (String intentValue : dataName){
+            activityIntent.putExtra(intentValue , gson.toJson(dataValues.get(incrementData)));
+        }
+
+        startActivity(activityIntent);
+        if(isFinish)
+            finish();
+
+    }
+
+    // Getters/Setters
     public PreferenceHelper getPreferenceHelper() {
         return preferenceHelper;
     }
@@ -174,6 +207,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     public Gson getGSON() {
         return gson;
     }
+
+    // Abstract Method
 
     protected abstract int getLayoutId();
 
