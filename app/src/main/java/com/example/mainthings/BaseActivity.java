@@ -50,6 +50,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     }
 
+    // Permissions Camera , Location
+
     public boolean locationEnabled() {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -68,7 +70,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return gps_enabled || network_enabled;
     }
 
-
     public void locationPermission(PermissionCallback permissionCallback){
 
         this.permissionCallback = permissionCallback;
@@ -83,7 +84,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             });
         }
     }
-
 
     @SuppressLint("MissingPermission")
     @AfterPermissionGranted(Constants.FINE_AND_COURSE_LOCATION_PERMISSION)
@@ -165,6 +165,22 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
     }
 
+    // Activity Navigation
+    public void activityNavigation(Context context, Class<?> activityClass, boolean isFinish, List<String> dataName , List<Object> dataValues){
+        Intent activityIntent = new Intent(context , activityClass);
+
+        int incrementData = 0;
+        for (String intentValue : dataName){
+            activityIntent.putExtra(intentValue , gson.toJson(dataValues.get(incrementData)));
+        }
+
+        startActivity(activityIntent);
+        if(isFinish)
+            finish();
+
+    }
+
+    // Getters/Setters
     public PreferenceHelper getPreferenceHelper() {
         return preferenceHelper;
     }
@@ -173,6 +189,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return gson;
     }
 
+    // Abstract Methods
     protected abstract int getLayoutId();
 
     protected abstract String getTag();
