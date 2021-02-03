@@ -2,24 +2,26 @@ package com.example.mainthings;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.WindowManager;
 
-import com.example.mainthings.callbacks.LocationPermissionCallback;
 import com.example.mainthings.callbacks.PermissionCallback;
 import com.example.mainthings.utils.AlertDialogs;
 import com.example.mainthings.utils.Constants;
 import com.example.mainthings.utils.PreferenceHelper;
+import com.example.mainthings.utils.UtilsFunction;
 import com.google.gson.Gson;
-
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     private PreferenceHelper preferenceHelper;
     private Gson gson;
     private PermissionCallback permissionCallback;
+    private AlertDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -208,6 +211,12 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return gson;
     }
 
+    public AlertDialog getProgressDialog() { return progressDialog; }
+
+    public void setProgressDialog(AlertDialog progressDialog) {
+        this.progressDialog = progressDialog;
+    }
+
     // Abstract Method
 
     protected abstract int getLayoutId();
@@ -216,4 +225,15 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     protected abstract void created(Bundle savedInstance);
 
+    @Override
+    public void onBackPressed() {
+        if (progressDialog != null){
+            if (progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }else
+                finish();
+        }else{
+            finish();
+        }
+    }
 }

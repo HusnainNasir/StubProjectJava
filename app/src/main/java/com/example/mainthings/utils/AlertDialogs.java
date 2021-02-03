@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mainthings.R;
 import com.example.mainthings.callbacks.OnClickCallback;
@@ -19,19 +20,38 @@ import java.util.Objects;
 public class AlertDialogs {
 
     // CUSTOM PROGRESS DIALOG
-    public static ProgressDialog getProgressDialog(Context context , Boolean cancelable) {
+    public static AlertDialog getProgressDialog(Context context , Boolean cancelable) {
 
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.show();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context );
 
-        if (progressDialog.getWindow() != null ) {
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-        progressDialog.setContentView(R.layout.custom_progress_dialog_layout);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(cancelable);
-        progressDialog.setCanceledOnTouchOutside(cancelable);
-        return progressDialog;
+        LayoutInflater inflater =  (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+
+        View dialogView= inflater.inflate(R.layout.custom_progress_dialog_layout, null);
+        dialogBuilder.setView(dialogView);
+
+
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(cancelable);
+
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        int width = (int)(context.getResources().getDisplayMetrics().widthPixels * 0.17f);
+
+        Objects.requireNonNull(dialog.getWindow()).setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        return dialog;
+//        ProgressDialog progressDialog = new ProgressDialog(context);
+//        progressDialog.show();
+//
+//        if (progressDialog.getWindow() != null ) {
+//            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        }
+//        progressDialog.setContentView(R.layout.custom_progress_dialog_layout);
+//        progressDialog.setIndeterminate(true);
+//        progressDialog.setCancelable(cancelable);
+//        progressDialog.setCanceledOnTouchOutside(cancelable);
+//        return progressDialog;
     }
 
     // CUSTOM ALERT DIALOG

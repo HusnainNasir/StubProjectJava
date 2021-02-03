@@ -1,5 +1,5 @@
 package com.example.mainthings.callbacks;
 
 public interface NetworkCallback {
-    void networkCallback(Object object);
+    void networkCallback(boolean isNetwork);
 }

@@ -2,8 +2,10 @@ package com.example.mainthings.ui.login_activity;
 
 
 import android.os.Bundle;
+
 import com.example.mainthings.BaseActivity;
 import com.example.mainthings.R;
+import com.example.mainthings.utils.AlertDialogs;
 
 
 public class LoginActivity extends BaseActivity {
@@ -26,8 +28,8 @@ public class LoginActivity extends BaseActivity {
 
     private void init() {
         setToolbar(getString(R.string.app_name));
+        getProgressDialog().show();
     }
-
 
 
 }
