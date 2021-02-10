@@ -1,16 +1,37 @@
 package com.example.mainthings.ui.main_activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.mainthings.BaseActivity;
 import com.example.mainthings.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
+import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void created(Bundle savedInstance) {
         Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+
+            switch (item.getItemId()) {
+
+                case R.id.first :
+                    Toast.makeText(this, "First", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.second :
+                    Toast.makeText(this, "second", Toast.LENGTH_SHORT).show();
+                    return true;
+            }
+            return false;
+        });
     }
 
     @Override

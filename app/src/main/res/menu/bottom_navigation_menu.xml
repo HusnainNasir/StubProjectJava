@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/first"
+        android:enabled="true"
+        android:title="First Bottom"/>
+    <item
+        android:id="@+id/second"
+        android:enabled="true"
+        android:title="Second Bottom"/>
+</menu>
