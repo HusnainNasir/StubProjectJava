@@ -14,6 +14,7 @@ import com.example.mainthings.callbacks.LocationPermissionCallback;
 import com.example.mainthings.callbacks.PermissionCallback;
 import com.example.mainthings.utils.AlertDialogs;
 import com.example.mainthings.utils.Constants;
+import com.example.mainthings.utils.NetworkManager;
 import com.example.mainthings.utils.PreferenceHelper;
 import com.google.gson.Gson;
 
@@ -35,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     private PreferenceHelper preferenceHelper;
     private Gson gson;
     private PermissionCallback permissionCallback;
+    private NetworkManager networkManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,9 +47,23 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             ButterKnife.bind(this);
             preferenceHelper = PreferenceHelper.preferenceInstance(getApplicationContext());
             gson = new Gson();
+            networkManager = NetworkManager.getNetworkManager();
+
+            networkObservable();
+
             created(savedInstanceState);
         }
 
+    }
+
+    public  void networkObservable(){
+
+        networkManager.isNetworkState().observe(this , isNetwork ->{
+            if (isNetwork)
+                Toast.makeText(this, "Internet is Connected", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Internet is disconnected", Toast.LENGTH_SHORT).show();
+        });
     }
 
     // Permissions Camera , Location

@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.example.mainthings.BaseActivity;
 import com.example.mainthings.R;
+import com.example.mainthings.utils.NetworkManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -19,19 +20,31 @@ public class MainActivity extends BaseActivity {
     protected void created(Bundle savedInstance) {
         Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
 
+        NetworkManager networkManager = NetworkManager.getNetworkManager();
+
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
             switch (item.getItemId()) {
 
                 case R.id.first :
-                    Toast.makeText(this, "First", Toast.LENGTH_SHORT).show();
+
+                    if (networkManager.isInternetWorking()){
+                        Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "Disconnected", Toast.LENGTH_SHORT).show();
+                    }
                     return true;
                 case R.id.second :
-                    Toast.makeText(this, "second", Toast.LENGTH_SHORT).show();
+                    if (networkManager.isWorking()){
+                        Toast.makeText(this, "Working", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "No Working", Toast.LENGTH_SHORT).show();
+                    }
                     return true;
             }
             return false;
         });
+
     }
 
     @Override
