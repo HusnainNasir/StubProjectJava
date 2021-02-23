@@ -7,7 +7,6 @@ import com.example.mainthings.R;
 
 public class MainActivity extends BaseActivity {
 
-
     @Override
     protected void created(Bundle savedInstance) {
         Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
