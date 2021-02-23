@@ -2,6 +2,8 @@ package com.example.mainthings;
 
 import android.content.Context;
 
+import com.example.mainthings.utils.NetworkManager;
+
 import androidx.multidex.MultiDexApplication;
 
 public class MyApplication extends MultiDexApplication {
@@ -22,5 +24,6 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        new NetworkManager(this);
     }
 }
