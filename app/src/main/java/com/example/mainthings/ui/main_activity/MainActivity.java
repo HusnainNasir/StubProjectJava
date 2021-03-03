@@ -1,21 +1,21 @@
 package com.example.mainthings.ui.main_activity;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.drawerlayout.widget.DrawerLayout;
-import butterknife.BindView;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import com.example.mainthings.BaseActivity;
 import com.example.mainthings.R;
 import com.example.mainthings.ui.login_activity.LoginActivity;
-import com.example.mainthings.utils.AlertDialogs;
-import com.example.mainthings.utils.UtilsFunction;
 import com.google.android.material.navigation.NavigationView;
+
 import java.util.Collections;
 import java.util.Objects;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
+import butterknife.BindView;
 
 @SuppressLint("NonConstantResourceId")
 public class MainActivity extends BaseActivity {
